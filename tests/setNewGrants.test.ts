@@ -67,6 +67,13 @@ test.describe("Set new grants.",()=>{
         await checkEligibilityPage.verifyCheckEligibilityPageBanner("Check Your Eligibility")
         await checkEligibilityPage.verifyMandetoryFieldLabel("* Mandatory field")
         await checkEligibilityPage.verifyApplicationSectionCount(6)
+
+        await checkEligibilityPage.verifyDisplayed_Q1("Is the applicant registered in Singapore? *")
+        await checkEligibilityPage.verifyDisplayed_Q2("Is the applicant's group sales turnover less than or equal to S$100m or is the applicant's group employment size less than or equal to 200? *")
+        await checkEligibilityPage.verifyDisplayed_Q3("Does the applicant have at least 30%  local equity? *")
+        await checkEligibilityPage.verifyDisplayed_Q4("Are the target market(s) that you are applying for a new market? A market is considered new if your company's revenue from there has not exceeded $100,000 in any of the last 3 years. *")
+        await checkEligibilityPage.verifyDisplayed_Q5("Are all the following statements true for this project? *  The applicant has not started work on this project  The applicant has not made any payment to any supplier, vendor, or third party prior to applying for this grant   The applicant has not signed any contractual agreement with any supplier, vendor, or third party prior to applying for this grant  ")
+
         await checkEligibilityPage.selectYesTo_IsSinagporian()
         await checkEligibilityPage.selectYesTo_groupSsalesTurnoverIsLessThan100()
         await checkEligibilityPage.selectYesTo_react_eligibility_global_hq_check()
@@ -76,6 +83,7 @@ test.describe("Set new grants.",()=>{
         await checkEligibilityPage.verifyToastMessage("Draft Saved")
         await checkEligibilityPage.reloadExistingPage()
         await checkEligibilityPage.verifySaveFunctionality() 
+
          
 
     })
