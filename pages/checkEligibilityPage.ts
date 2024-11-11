@@ -12,13 +12,7 @@ export default class CheckEligibilityPage{
     readonly lbl_toast:Locator;
     readonly btn_next:Locator;
     readonly ele_sidemenuElements:Locator;
-    readonly lbl_Q1:Locator;
-    readonly lbl_Q2:Locator;
-    readonly lbl_Q3:Locator;
-    readonly lbl_Q4:Locator;
-    readonly lbl_Q5:Locator;
-
-
+    readonly lbl_Question:Locator;
 
 
     constructor(public page:Page){
@@ -33,13 +27,7 @@ export default class CheckEligibilityPage{
         this.lbl_toast=page.locator(".growl-title");
         this.btn_next=page.locator("//button[text()='Next']")
         this.ele_sidemenuElements=page.locator("xpath=//li/a")
-        this.lbl_Q1=page.locator(".form-group .control-label.bgp-label").nth(0)
-        this.lbl_Q2=page.locator(".form-group .control-label.bgp-label").nth(1)
-        this.lbl_Q3=page.locator(".form-group .control-label.bgp-label").nth(2)
-        this.lbl_Q4=page.locator(".form-group .control-label.bgp-label").nth(3)
-        this.lbl_Q5=page.locator(".form-group .control-label.bgp-label").nth(4)
-
-
+        this.lbl_Question=page.locator(".form-group .control-label.bgp-label")
     }
     
 
@@ -122,26 +110,27 @@ export default class CheckEligibilityPage{
         const count=await elements.count()
         console.log(count)
         expect(count).toEqual(value)
+        console.log("-------------Vailable elements "+value+"-------------")
     }
 
     async verifyDisplayed_Q1(lbl_question1:string){
-        const question1=this.lbl_Q1
+        const question1=this.lbl_Question.nth(0)
         expect(question1).toHaveText(lbl_question1)
     }
     async verifyDisplayed_Q2(lbl_question:string){
-        const question1=this.lbl_Q2
+        const question1=this.lbl_Question.nth(1)
         expect(question1).toHaveText(lbl_question)
     }
     async verifyDisplayed_Q3(lbl_question:string){
-        const question1=this.lbl_Q3
+        const question1=this.lbl_Question.nth(2)
         expect(question1).toHaveText(lbl_question)
     }
     async verifyDisplayed_Q4(lbl_question:string){
-        const question1=this.lbl_Q4
+        const question1=this.lbl_Question.nth(3)
         expect(question1).toHaveText(lbl_question)
     }
     async verifyDisplayed_Q5(lbl_question:string){
-        const question1=this.lbl_Q5
+        const question1=this.lbl_Question.nth(4)
         expect(question1).toHaveText(lbl_question)
     }
 

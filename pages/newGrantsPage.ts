@@ -44,6 +44,7 @@ export default class NewGrantsPage{
 
     async marketReadinessAssistance(){
         const btn_Readiness=this.btn_marketReadinessAssistance
+        await btn_Readiness.scrollIntoViewIfNeeded();
         await expect(btn_Readiness).toBeVisible({timeout:600000})
         await btn_Readiness.click()
     }
