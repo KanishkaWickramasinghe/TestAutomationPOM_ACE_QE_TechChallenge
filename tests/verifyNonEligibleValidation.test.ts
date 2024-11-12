@@ -1,6 +1,6 @@
 import {expect, test} from "@playwright/test"
 import SignInPage from "../pages/signInPage"
-import HomePage from "../pages/homePage";
+import DashboardPage from "../pages/dashboardPage";
 import LogingPage from "../pages/loginPage";
 import PreLoginPage from "../pages/preLoginPage";
 import BasePage from "../pages/basePage";
@@ -28,8 +28,8 @@ test.describe("Validation of non-eligible validation.",()=>{
             await page.waitForLoadState('networkidle');
             
             console.log("-------------Navigate to Home page.-------------")
-            const homePage=new HomePage(page)
-            await homePage.verifyHomePageBanner("my Grants")
+            const dashboardPage=new DashboardPage(page)
+            await dashboardPage.verifyHomePageBanner("my Grants")
            
     })
 })

@@ -91,7 +91,7 @@ export default class CheckEligibilityPage{
     }
     async reloadExistingPage(){
         await this.page.reload({
-            timeout: 100000, 
+            timeout: 600000, 
             waitUntil: 'networkidle', 
           });
           console.log("-------------Page reloaded.-------------")

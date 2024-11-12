@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-export default class HomePage{
+export default class DashboardPage{
     readonly lbl_homeBanner:Locator;
     readonly btn_newGrants:Locator;
     readonly btn_logout:Locator;

@@ -2,7 +2,7 @@ import {expect, test} from "@playwright/test"
 import SignInPage from "../pages/signInPage"
 import PreLoginPage from "../pages/preLoginPage";
 import LogingPage from "../pages/loginPage";
-import HomePage from "../pages/homePage";
+import DashboardPage from "../pages/dashboardPage";
 import NewGrantsPage from "../pages/newGrantsPage";
 import GrantActionsPage from "../pages/grantActionsPage";
 import CheckEligibilityPage from "../pages/checkEligibilityPage";
@@ -35,10 +35,10 @@ test.describe("Set new grants.",()=>{
         await page.waitForLoadState('networkidle',{timeout:1000000});
         Promise.all([page.waitForLoadState('networkidle')])
         
-        const homePage=new HomePage(page)
+        const dashboardPage=new DashboardPage(page)
         console.log("-------------Navigate to Homepage.-------------")
-        await homePage.verifyHomePageBanner("my Grants") 
-        await homePage.navigateToNewGrants()
+        await dashboardPage.verifyHomePageBanner("my Grants") 
+        await dashboardPage.navigateToNewGrants()
         await page.waitForLoadState('load',{ timeout: 10000000 }); 
         
         const newGrantsPage=new NewGrantsPage(page);

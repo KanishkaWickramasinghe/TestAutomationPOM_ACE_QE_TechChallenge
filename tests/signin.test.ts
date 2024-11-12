@@ -2,7 +2,7 @@ import {expect, test} from "@playwright/test"
 import SignInPage from "../pages/signInPage"
 import PreLoginPage from "../pages/preLoginPage";
 import LogingPage from "../pages/loginPage";
-import HomePage from "../pages/homePage";
+import DashboardPage from "../pages/dashboardPage";
 import LogoutSuccessPage from "../pages/logoutSuccessPage";
 import BasePage from "../pages/basePage";
 import data from "../testdata/data.json"
@@ -35,10 +35,10 @@ test.describe("SignInTestSuite",()=>{
         await loginPage.loginToBGPWithUserCredentials(data.uen,data.userId,data.role,data.name)   
         await page.waitForLoadState('networkidle');
         
-        const homePage=new HomePage(page)
-        await homePage.verifyHomePageBanner("my Grants") 
-        await homePage.verifyLoggedInUser(data.name)
-        await homePage.verifyLoggedInUserRole(data.role)
+        const dashboardPage=new DashboardPage(page)
+        await dashboardPage.verifyHomePageBanner("my Grants") 
+        await dashboardPage.verifyLoggedInUser(data.name)
+        await dashboardPage.verifyLoggedInUserRole(data.role)
     })
 
     test("Invalid signIn faulty password varification",async({page,baseURL})=>{
@@ -80,9 +80,9 @@ test.describe("SignInTestSuite",()=>{
         await page.waitForLoadState('networkidle');
         
         console.log("-------------Navigate to Home page.-------------")
-        const homePage=new HomePage(page)
-        await homePage.verifyHomePageBanner("my Grants") 
-        await homePage.logoutFromLoginUser()
+        const dashboardPage=new DashboardPage(page)
+        await dashboardPage.verifyHomePageBanner("my Grants") 
+        await dashboardPage.logoutFromLoginUser()
 
         console.log("-------------Navigate to Logout success page.-------------")
         const logoutSuccessPage=new LogoutSuccessPage(page)
