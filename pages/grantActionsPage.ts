@@ -16,15 +16,18 @@ export default class GrantActionsPage{
     async verifyGrantActionsPage(label:string){
         const pageBanner=this.lbl_pageBanner
         expect(pageBanner).toHaveText(label)
+        console.log("-------------Grant action page loaded.-------------")
     }
     async verifyGrantActionsApplicationForm(formName:string){
         const applicationFormSectionHeader=this.lbl_applicationFormHeader
         expect(applicationFormSectionHeader).toHaveText(formName)
         await applicationFormSectionHeader.click()
+        console.log("-------------Verify grant application form name.-------------")
     }
     async proceedToFormApplication(){
         const proceedBtn=this.btn_proceed
         await proceedBtn.click()  
+        console.log("-------------Proceed to grant application form.-------------")
     }
     
     

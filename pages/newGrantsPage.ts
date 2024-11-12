@@ -8,8 +8,6 @@ export default class NewGrantsPage{
     readonly btn_marketReadinessAssistance:Locator;
     readonly btn_applyForGrantAfterConfig:Locator;
 
-
-
     constructor(public page:Page){
         this.lbl_newGrants=page.locator("#grant-wizard h3")
         this.lbl_granType=page.locator("xpath=//input[@name='industry_type']/following-sibling::div/div[text()='IT']")
@@ -17,29 +15,32 @@ export default class NewGrantsPage{
         this.btn_OverSeas=page.locator("xpath=//input[@id='International Expansion']")
         this.btn_marketReadinessAssistance=page.locator("xpath=//div[text()='Market Readiness Assistance']/ancestor::label/input")
         this.btn_applyForGrantAfterConfig=page.locator("xpath=//button[text()='Apply']")
-
     }
 
     async verifyNewGrantsBanner(banner:string){
         const pageBanner= this.lbl_newGrants
         await expect(pageBanner).toBeVisible({ timeout: 45000 });
         expect(pageBanner).toHaveText(banner)
+        console.log("-------------The user is in new grants page.-------------")
     }
 
     async pickGrantTypeByText_IT(){
         const grantTypeIT=this.lbl_granType
         await grantTypeIT.click()
+        console.log("-------------Clicked IT on grant picker item.-------------")
 
     }
     async verifySelectedGrantPageNavigation(text:string){
         const elementText= this.lbl_grantPageNavigationHeader
         expect(elementText).toHaveText(text)
+        console.log("-------------The user is in the selected grant page.-------------")
     }
 
     async selectBringMyBusinessOverSeas(){
         const btn_intExp=this.btn_OverSeas
         await expect(btn_intExp).toBeVisible({timeout:15000})
         await btn_intExp.click()
+        console.log("-------------select Bring My Business OverSeas.-------------")
     }
 
     async marketReadinessAssistance(){
@@ -47,11 +48,12 @@ export default class NewGrantsPage{
         await btn_Readiness.scrollIntoViewIfNeeded();
         await expect(btn_Readiness).toBeVisible({timeout:600000})
         await btn_Readiness.click()
+        console.log("-------------market Readiness Assistance.-------------")
     }
     async applyForGrantAfterConfig(){
         const btn_apply=this.btn_applyForGrantAfterConfig
         await expect(btn_apply).toBeVisible({timeout:1000000})
         await btn_apply.click({ timeout: 15000 })
-    }
-    
+        console.log("-------------Apply for grant.-------------")
+    }  
 }

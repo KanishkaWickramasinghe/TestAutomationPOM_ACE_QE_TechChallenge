@@ -21,25 +21,20 @@ export default class LogingPage{
     async verifyPageBanner(bannerText:string){
         const banner=await this.lbl_pageBanner
         expect(banner).toHaveText(bannerText)
+        console.log("-------------Login page verified.-------------")
     }
 
-    async addEntityUEN(uen:string){
+    async loginToBGPWithUserCredentials(uen:string,userId:string,userRole:string,userFullName:string){
         await this.input_UEN.type(uen)
-    }
-
-    async addUserId(userId:string){
+        console.log("-------------UEN added.-------------")
         await this.input_addUserId.type(userId)
-    }
-    async addUserRole(userRole:string){
+        console.log("-------------User id added.-------------")
         await this.input_addUserRole.type(userRole)
-    }
-    async addUserFullName(userFullName:string){
+        console.log("-------------User role added.-------------")
         await this.input_addUserFullName.type(userFullName)
-    }
-    async loginWithManualLogin(){
+        console.log("-------------User full name added.-------------")
         await this.btn_login.click()
-    }
-
-    
+        console.log("-------------Login completed-------------")
+    } 
 }
 

@@ -3,40 +3,32 @@ import SignInPage from "../pages/signInPage"
 import HomePage from "../pages/homePage";
 import LogingPage from "../pages/loginPage";
 import PreLoginPage from "../pages/preLoginPage";
+import BasePage from "../pages/basePage";
+import data from "../testdata/data.json"
 
 test.describe("Validation of non-eligible validation.",()=>{
-    const password="bgPB3Aw3SomeGvtF@lk!";
-    const userName="temp-govtech";
-    test("Newgrant non eligible validation verification.",async({page,baseURL})=>{
-        const signiIn=new SignInPage(page);
-            await page.goto(`${baseURL}`,{ timeout: 60000 });
-            await page.evaluate(() => {
-                document.documentElement.requestFullscreen();
-              });
-            
-            await signiIn.enterUserName(userName)
-            await signiIn.enterUserPassword(password)
-            await signiIn.signInToSystem()
+    test("Newgrant non eligible validation verification.",async({page,baseURL})=>{    
+        const basePage=new BasePage(page,`${baseURL}`);
+        await basePage.initialize()
+
+        console.log("-------------Navigate to Signin page.-------------")
+        const signiIn=new SignInPage(page);          
+            await signiIn.loginToSystemWithCredentials(data.userName,data.password)
         
             Promise.all([page.waitForLoadState('networkidle')])
+            console.log("-------------Navigate to Pre-login page.-------------")
             const preLoginPage=new PreLoginPage(page);
-            await preLoginPage.verifyPreLoginPageHeader("FAQ")
-            await preLoginPage.loginToBGP()  
+            await preLoginPage.loginToBGP("FAQ")  
             Promise.all([page.waitForLoadState('networkidle')])
         
+            console.log("-------------Navigate to Login page.-------------")
             const loginPage=new LogingPage(page);
             await loginPage.verifyPageBanner("Manual Log In")
-             
-            await loginPage.addEntityUEN("BGPQETECH")
-            await loginPage.addUserId("S1234567A")
-            await loginPage.addUserRole("Acceptor")
-            await loginPage.addUserFullName("Tan Ah Kow")
-            await loginPage.loginWithManualLogin()  
-            //await page.waitForLoadState('load',{ timeout: 600000 });
+            await loginPage.loginToBGPWithUserCredentials(data.uen,data.userId,data.role,data.name) 
             await page.waitForLoadState('networkidle');
             
+            console.log("-------------Navigate to Home page.-------------")
             const homePage=new HomePage(page)
-            
             await homePage.verifyHomePageBanner("my Grants")
            
     })

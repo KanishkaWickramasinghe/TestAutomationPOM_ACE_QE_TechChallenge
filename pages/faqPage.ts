@@ -9,5 +9,6 @@ export default class FAQPage{
         const pageBanner=this.lbl_FaqPageBanner;
         expect(pageBanner).toBeVisible()
         expect(pageBanner).toHaveText(bannerText)
+        console.log("-------------FAQ page loaded.-------------")
     }
 }

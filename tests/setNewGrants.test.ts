@@ -6,75 +6,65 @@ import HomePage from "../pages/homePage";
 import NewGrantsPage from "../pages/newGrantsPage";
 import GrantActionsPage from "../pages/grantActionsPage";
 import CheckEligibilityPage from "../pages/checkEligibilityPage";
+import BasePage from "../pages/basePage";
+import data from "../testdata/data.json"
 
-const password="bgPB3Aw3SomeGvtF@lk!";
-const userName="temp-govtech";
+
 
 test.describe("Set new grants.",()=>{
     test("Set a new grant",async({page,baseURL})=>{
+        const basePage=new BasePage(page,`${baseURL}`);
+        await basePage.initialize()
+
         const signiIn=new SignInPage(page);
-        await page.goto(`${baseURL}`,{ timeout: 60000 });
-        await page.evaluate(() => {
-            document.documentElement.requestFullscreen();
-          });
+        console.log("-------------Navigate to Signin page.-------------")
+        await signiIn.loginToSystemWithCredentials(data.userName,data.password)
         
-        await signiIn.enterUserName(userName)
-        console.log("-------------User name "+userName+" added.-------------")
-        await signiIn.enterUserPassword(password)
-        console.log("-------------User name "+password+" added.-------------")
-        await signiIn.signInToSystem()
-        console.log("-------------SignIn completed and navigate to preLogin-------------")
-    
         Promise.all([page.waitForLoadState('networkidle')])
         const preLoginPage=new PreLoginPage(page);
-        await preLoginPage.verifyPreLoginPageHeader("FAQ")
-        await preLoginPage.loginToBGP()  
-        console.log("-------------Navigate to login-------------")
+        console.log("-------------Navigate to pre-login page.-------------")
+        await preLoginPage.loginToBGP("FAQ")    
+        
         Promise.all([page.waitForLoadState('networkidle')])
     
         const loginPage=new LogingPage(page);
+        console.log("-------------Navigate to Login page-------------")
         await loginPage.verifyPageBanner("Manual Log In")
-        await loginPage.addEntityUEN("BGPQETECH")
-        await loginPage.addUserId("S1234567A")
-        await loginPage.addUserRole("Acceptor")
-        await loginPage.addUserFullName("Tan Ah Kow")
-        await loginPage.loginWithManualLogin()  
-        console.log("-------------Login completed-------------")
-        //await page.waitForLoadState('load',{ timeout: 600000 });
+        await loginPage.loginToBGPWithUserCredentials(data.uen,data.userId,data.role,data.name)
+        
         await page.waitForLoadState('networkidle',{timeout:1000000});
         Promise.all([page.waitForLoadState('networkidle')])
         
         const homePage=new HomePage(page)
-        console.log("-------------Verify homepage navigation-------------")
+        console.log("-------------Navigate to Homepage.-------------")
         await homePage.verifyHomePageBanner("my Grants") 
         await homePage.navigateToNewGrants()
         await page.waitForLoadState('load',{ timeout: 10000000 }); 
-        console.log("-------------Navigate to new grants page.-------------")
-    
+        
         const newGrantsPage=new NewGrantsPage(page);
+        console.log("-------------Navigate to NewGrants page.-------------")
         await newGrantsPage.verifyNewGrantsBanner("Which sector best describes your business?")
 
         await page.waitForLoadState('networkidle',{timeout:1000000});
         await newGrantsPage.pickGrantTypeByText_IT()
-        console.log("-------------Clicked IT on grant picker item.-------------")
         await page.waitForLoadState('networkidle',{timeout:1000000});
 
         await newGrantsPage.verifySelectedGrantPageNavigation("I need this grant to")
         await newGrantsPage.selectBringMyBusinessOverSeas()
-        console.log("-------------select Bring My Business OverSeas.-------------")
         await newGrantsPage.marketReadinessAssistance()
-        console.log("-------------market Readiness Assistance.-------------")
         await newGrantsPage.applyForGrantAfterConfig()
-        console.log("-------------Apply for grant.-------------")
+        
         Promise.all([page.waitForLoadState('networkidle')])
 
         const grantActionsPage= new GrantActionsPage(page)
+        console.log("-------------Navigate to grant actions page.-------------")
         await grantActionsPage.verifyGrantActionsPage("Grant Actions")
         await grantActionsPage.verifyGrantActionsApplicationForm("Application Form")
         await grantActionsPage.proceedToFormApplication()
-        console.log("-------------Proceed to grant application form.-------------")
+        
 
         const checkEligibilityPage=new CheckEligibilityPage(page)
+        console.log("-------------Navigate to check availablity.-------------")
         await checkEligibilityPage.verifyCheckEligibilityPageBanner("Check Your Eligibility")
         await checkEligibilityPage.verifyMandetoryFieldLabel("* Mandatory field")
         await checkEligibilityPage.verifyApplicationSectionCount(6)
