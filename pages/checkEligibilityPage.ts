@@ -8,26 +8,28 @@ export default class CheckEligibilityPage{
     readonly radio_react_eligibility_global_hq_check:Locator;
     readonly radio_react_eligibility_new_target_market_check:Locator;
     readonly radio_react_eligibility_started_project_check:Locator;
-    readonly btn_saveFormEligibilitySectionAsDraft:Locator;
+    readonly btn_save:Locator;
     readonly lbl_toast:Locator;
     readonly btn_next:Locator;
     readonly ele_sidemenuElements:Locator;
     readonly lbl_Question:Locator;
-
-
+    readonly lbl_RadioValidationMessage:Locator;
+    
     constructor(public page:Page){
         this.lbl_eligibilityPageBanner=page.locator("xpath=//div[@class='main']//h2")
         this.lbl_mandetoryField=page.locator(".text-semibold.success-helptext")
-        this.radio_IsSinagporian=page.locator("//input[@id='react-eligibility-sg_registered_check-true']/following-sibling::span")
-        this.radio_groupSsalesTurnoverIsLessThan100=page.locator("//input[@id='react-eligibility-turnover_check-true']/following-sibling::span")
-        this.radio_react_eligibility_global_hq_check=page.locator("//input[@id='react-eligibility-global_hq_check-true']/following-sibling::span")
-        this.radio_react_eligibility_new_target_market_check=page.locator("//input[@id='react-eligibility-new_target_market_check-true']/following-sibling::span")
-        this.radio_react_eligibility_started_project_check=page.locator("//input[@id='react-eligibility-started_project_check-true']/following-sibling::span")
-        this.btn_saveFormEligibilitySectionAsDraft=page.locator("xpath=//button[text()='Save']")
+        this.radio_IsSinagporian=page.locator("//input[@name='react-eligibility-sg_registered_check']/following-sibling::span")
+        this.radio_groupSsalesTurnoverIsLessThan100=page.locator("//input[@name='react-eligibility-turnover_check']/following-sibling::span")
+        this.radio_react_eligibility_global_hq_check=page.locator("//input[@name='react-eligibility-global_hq_check']/following-sibling::span")
+        this.radio_react_eligibility_new_target_market_check=page.locator("//input[@name='react-eligibility-new_target_market_check']/following-sibling::span")
+        this.radio_react_eligibility_started_project_check=page.locator("//input[@name='react-eligibility-started_project_check']/following-sibling::span")
+        this.btn_save=page.locator("xpath=//button[text()='Save']")
         this.lbl_toast=page.locator(".growl-title");
         this.btn_next=page.locator("//button[text()='Next']")
         this.ele_sidemenuElements=page.locator("xpath=//li/a")
         this.lbl_Question=page.locator(".form-group .control-label.bgp-label")
+        this.lbl_RadioValidationMessage=page.locator(".field-warning-text span")
+        
     }
     
 
@@ -77,10 +79,38 @@ export default class CheckEligibilityPage{
         console.log("-------------Eligibility started project radio button selected-YES.-------------")
     }
 
-    async saveFormEligibilitySectionAsDraft(){
-        const btn_save=this.btn_saveFormEligibilitySectionAsDraft 
-        await btn_save.click()
-        console.log("-------------Saved eligibility config.-------------")
+    async selectNoForTheApplicationRadioButtons(val_message:string,){
+        const validation_message=this.lbl_RadioValidationMessage
+        
+        const radio_Q1=this.radio_IsSinagporian
+        await radio_Q1.last().scrollIntoViewIfNeeded();
+        await radio_Q1.nth(3).click()
+        await expect(validation_message.nth(0)).toHaveText(val_message)
+
+        const radio_Q2=this.radio_groupSsalesTurnoverIsLessThan100
+        await radio_Q2.nth(3).click()
+        await expect(validation_message.nth(1)).toHaveText(val_message)
+
+        const radio_Q3=this.radio_react_eligibility_global_hq_check
+        await radio_Q3.nth(3).scrollIntoViewIfNeeded();
+        await radio_Q3.nth(3).click()
+        await expect(validation_message.nth(2)).toHaveText(val_message)
+
+        const radio_Q4=this.radio_react_eligibility_new_target_market_check 
+        await radio_Q4.nth(3).scrollIntoViewIfNeeded();
+        await radio_Q4.nth(3).click()
+        await expect(validation_message.nth(3)).toHaveText(val_message)
+
+        const radio_Q5=this.radio_react_eligibility_started_project_check
+        await radio_Q5.nth(3).scrollIntoViewIfNeeded();
+        await radio_Q5.nth(3).click()
+        await expect(validation_message.nth(4)).toHaveText(val_message)
+    }
+
+    async saveEligibilityConfig(){
+        const saveButton_el=this.btn_save
+        await saveButton_el.click()
+        await this.page.waitForLoadState("networkidle",{timeout:50000})
     }
 
     async verifyToastMessage(txt:string){

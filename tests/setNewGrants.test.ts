@@ -1,5 +1,5 @@
 import {expect, test} from "@playwright/test"
-import SignInPage from "../pages/signInPage"
+import { SignInPage } from "../pages/signInPage";
 import PreLoginPage from "../pages/preLoginPage";
 import LogingPage from "../pages/loginPage";
 import DashboardPage from "../pages/dashboardPage";
@@ -8,6 +8,10 @@ import GrantActionsPage from "../pages/grantActionsPage";
 import CheckEligibilityPage from "../pages/checkEligibilityPage";
 import BasePage from "../pages/basePage";
 import data from "../testdata/data.json"
+import contactData from "../testdata/mainContactPersonData.json"
+import projectDetails from "../testdata/projectDetails.json"
+import ContactInforPage from "../pages/contactInforPage";
+import ProposalPage from "../pages/proposalPage";
 
 
 
@@ -59,8 +63,9 @@ test.describe("Set new grants.",()=>{
         const grantActionsPage= new GrantActionsPage(page)
         console.log("-------------Navigate to grant actions page.-------------")
         await grantActionsPage.verifyGrantActionsPage("Grant Actions")
-        await grantActionsPage.verifyGrantActionsApplicationForm("Application Form")
         await grantActionsPage.proceedToFormApplication()
+        Promise.all([page.waitForLoadState('networkidle')])
+        await page.waitForLoadState('networkidle',{timeout:1000000});
         
 
         const checkEligibilityPage=new CheckEligibilityPage(page)
@@ -80,9 +85,59 @@ test.describe("Set new grants.",()=>{
         await checkEligibilityPage.selectYesTo_react_eligibility_global_hq_check()
         await checkEligibilityPage.selectYesTo_react_eligibility_new_target_market_check()
         await checkEligibilityPage.selectYesTo_react_eligibility_started_project_check()
-        await checkEligibilityPage.saveFormEligibilitySectionAsDraft()
+        await checkEligibilityPage.saveEligibilityConfig()
+        await page.waitForLoadState('networkidle',{timeout:1000000});
+        
         await checkEligibilityPage.verifyToastMessage("Draft Saved")
         await checkEligibilityPage.reloadExistingPage()
+        await page.waitForLoadState('networkidle',{timeout:1000000});
         await checkEligibilityPage.verifySaveFunctionality() 
+        await checkEligibilityPage.selectNoForTheApplicationRadioButtons("The applicant may not meet the eligibility criteria for this grant. Visit FAQ page for more information on other government grants.")
+        await checkEligibilityPage.navigetToNextFormSection()
+        await page.waitForLoadState('networkidle',{timeout:1000000});
+        Promise.all([page.waitForLoadState('networkidle',{timeout:5000000})])
+        
+
+        const contactInforPage=new ContactInforPage(page)
+        await contactInforPage.verifyPageBanner("Provide Your Contact Details")
+        await contactInforPage.verifyDisplayOfMainContactPersonInputFields()
+        await contactInforPage.addMainContactName(contactData.name)
+        await contactInforPage.addMainJobTitle(contactData.jobTitle)
+        await contactInforPage.addMainContactNumber(contactData.contactNo)
+        await contactInforPage.addEmailAddressDetails(contactData.email,contactData.altEmail)    
+        await page.waitForLoadState('networkidle',{timeout:1000000});
+        
+        await contactInforPage.filterforInvalidPostalCode(contactData.postalCode)
+        await page.waitForLoadState('networkidle',{timeout:1000000});
+        await contactInforPage.addMailingAddressManually(contactData.postalCode,"531","ANG MO KIO AVENUE 10")
+
+        // contactInforPage.filterforInvalidPostalCode("160304")
+        // contactInforPage.verifyPostalCodeValidationMessage("We can't find the postal code. Please try again.")
+        // await page.waitForLoadState('networkidle',{timeout:1000000});
+
+        await contactInforPage.verifyLetterOfOfferAddresseeFieds()
+        
+        await contactInforPage.checkSameAsMainMontactPerson()
+        await page.waitForLoadState('networkidle',{timeout:1000000});
+        await contactInforPage.verifyLetterOfOfferAddressee_Autofill(contactData.name,contactData.jobTitle,contactData.email)
+        await contactInforPage.saveContactDetailsConfig()
+        await page.waitForLoadState("networkidle",{timeout:500000})
+
+        await contactInforPage.reloadExistingPage()
+        await contactInforPage.verifySavedFunctionality(contactData.name,contactData.jobTitle,contactData.contactNo,contactData.email,
+            contactData.postalCode,contactData.blkNo,contactData.streetName, contactData.name ,contactData.jobTitle,contactData.email
+        )
+        await contactInforPage.navigetToNextFormSection()
+        
+        const proposalPage=new ProposalPage(page)
+        await page.waitForLoadState('networkidle',{timeout:1000000});
+        await proposalPage.addProposalName(projectDetails.projectName)
+        await proposalPage.addProjectDescription(projectDetails.projectDescription)
+        await proposalPage.addProjectStartDate(projectDetails.startDate)
+        await proposalPage.addProjectEndDate(projectDetails.endDate)
+        await proposalPage.selectIsTragetMarketOutsideSingapore()
+        await proposalPage.selectFile("")
+        
+
     })
 })

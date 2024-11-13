@@ -1,5 +1,5 @@
 import {expect, test} from "@playwright/test"
-import SignInPage from "../pages/signInPage"
+import {SignInPage} from "../pages/signInPage"
 import PreLoginPage from "../pages/preLoginPage";
 import LogingPage from "../pages/loginPage";
 import DashboardPage from "../pages/dashboardPage";

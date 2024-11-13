@@ -2,7 +2,7 @@ import {expect, test,Browser, chromium} from "@playwright/test"
 import PreLoginPage from "../pages/preLoginPage";
 import LogingPage from "../pages/loginPage";
 import DashboardPage from "../pages/dashboardPage";
-import SignInPage from "../pages/signInPage";
+import {SignInPage} from "../pages/signInPage";
 import FAQPage from "../pages/faqPage";
 import BasePage from "../pages/basePage";
 import data from "../testdata/data.json"
