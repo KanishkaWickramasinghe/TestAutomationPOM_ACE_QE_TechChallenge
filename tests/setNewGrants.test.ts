@@ -9,9 +9,15 @@ import CheckEligibilityPage from "../pages/checkEligibilityPage";
 import BasePage from "../pages/basePage";
 import data from "../testdata/data.json"
 import contactData from "../testdata/mainContactPersonData.json"
-import projectDetails from "../testdata/projectDetails.json"
+import projectDetails from "../testdata/projectDetailsData.json"
 import ContactInforPage from "../pages/contactInforPage";
 import ProposalPage from "../pages/proposalPage";
+import ProjectImpactPage from "../pages/projectImpactPage";
+import impactData from "../testdata/businessImpactData.json"
+import DeclareAndReviewPage from "../pages/declareAndReviewPage";
+import CostPage from "../pages/costPage";
+import costpageData from "../testdata/costData.json"
+import ReviewPage from "../pages/reviewPage";
 
 
 
@@ -40,7 +46,7 @@ test.describe("Set new grants.",()=>{
         Promise.all([page.waitForLoadState('networkidle')])
         
         const dashboardPage=new DashboardPage(page)
-        console.log("-------------Navigate to Homepage.-------------")
+        console.log("-------------Navigate to Dashboard.-------------")
         await dashboardPage.verifyHomePageBanner("my Grants") 
         await dashboardPage.navigateToNewGrants()
         await page.waitForLoadState('load',{ timeout: 10000000 }); 
@@ -133,11 +139,92 @@ test.describe("Set new grants.",()=>{
         await page.waitForLoadState('networkidle',{timeout:1000000});
         await proposalPage.addProposalName(projectDetails.projectName)
         await proposalPage.addProjectDescription(projectDetails.projectDescription)
+        
+        const today = new Date();
         await proposalPage.addProjectStartDate(projectDetails.startDate)
         await proposalPage.addProjectEndDate(projectDetails.endDate)
         await proposalPage.selectIsTragetMarketOutsideSingapore()
-        await proposalPage.selectFile("")
+        await proposalPage.selectFile("testFiles/TestFile1.pdf")
+        await proposalPage.selectActivityFromDropDown()
+        await proposalPage.selectMarketFromDropDown()
+        await proposalPage.addProjectRemarks(projectDetails.remarks)
+        await proposalPage.navigateToNextPage()
+        await page.waitForLoadState('networkidle',{timeout:1000000});
+
+        const businessImpact=new ProjectImpactPage(page)
+        await businessImpact.verifyPageBannerInBusinessImpact("Explain The Business Impact")
+        await businessImpact.setFYEDate(impactData.fyeDate)
+        await businessImpact.setOverSeasSales1(impactData.sales1)
+        await businessImpact.setOverSeasSales2(impactData.sales2)
+        await businessImpact.setOverSeasSales3(impactData.sales3)
+        await businessImpact.setOverSeasSales4(impactData.sales4)
+        await businessImpact.setOverseasInvestment1(impactData.overseasInvestment1)
+        await businessImpact.setOverseasInvestment2(impactData.overseasInvestment2)
+        await businessImpact.setOverseasInvestment3(impactData.overseasInvestment3)
+        await businessImpact.setOverseasInvestment4(impactData.overseasInvestment4)
+        await businessImpact.setBusinessImpactRemarks(impactData.remarks)
+        await businessImpact.setNonTangibleBenifits(impactData.nonTangibleBenifits)
+        await businessImpact.navigateToNextPage()
+        await page.waitForLoadState('networkidle',{timeout:1000000});
+
+        const cost=new CostPage(page)
+        await cost.verifyPageBannerInBusinessImpact("Provide Details of Costs")
+        await cost.expandThirdPartyVendorSection()
+        await cost.addNewItem()
+        await cost.venderRegistrationType()
+        await cost.setVendorName(costpageData.name)
+        await cost.selectFile("testFiles/TestFile1.pdf")
+        await page.waitForLoadState('networkidle',{timeout:1000000});
+        await cost.setEstimatedBillingCurrency(costpageData.currency)
+        await cost.navigateToNextPage()
+        await page.waitForLoadState('networkidle',{timeout:1000000});
+
+        const declarAndReviewPage=new DeclareAndReviewPage(page)
+        await declarAndReviewPage.reviewDetails()
+        await declarAndReviewPage.verifyErrorMessageLabelDisplay()
+        await declarAndReviewPage.selectCriminal_liability_check()
+        await declarAndReviewPage.selectCivilProceedings_check()
+        await declarAndReviewPage.selectProjectCommence_check()
+        await declarAndReviewPage.selectOther_incentives_check()
+
+        await declarAndReviewPage.selectProject_incentives_check()
+        await declarAndReviewPage.selectdebarment_check()
+        await declarAndReviewPage.selectinsolvency_check()
+        await declarAndReviewPage.selectRelated_party_check()
+        await declarAndReviewPage.selectApplicantAcknolwledgement()
+        await declarAndReviewPage.reviewDetails()
+        await page.waitForLoadState('networkidle',{timeout:1000000});
+
+        const reviewPage=new ReviewPage(page)
+        await reviewPage.verifyLoadedPageBanner("Company Profile")
+        await reviewPage.verifyEligibilitySectionBanner("Eligibility")
+        await reviewPage.verifyTurnover_check("No")
+        await reviewPage.verifyRegistered_check("No")
+        await reviewPage.verifyProject_check("No")
+        await reviewPage.verifyMarket_check("No")
+        await reviewPage.verifyGlobal_hq_check("No")
+
+        await reviewPage.verifyContatPersonDetails(contactData.name,contactData.jobTitle,contactData.contactNo,contactData.email,contactData.altEmail)
+        await reviewPage.verifyLetterOfAddresse(contactData.name,contactData.jobTitle,contactData.email)
+        await reviewPage.selectTruthfulnessCheck()
+        await reviewPage.submitReviewedApplication()
+        await page.waitForLoadState('networkidle',{timeout:1000000});
+        await reviewPage.verifySuccessMessage("Your application has been submitted.")
+        await reviewPage.verifySuccessMessageDetails("Enterprise Singapore")
+
+        //const rfid=reviewPage.readRFIDValue()
+       
+        await reviewPage.navigateToMyGrantsPage()
+        await page.waitForLoadState('networkidle',{timeout:1000000});
+        Promise.all([page.waitForLoadState('networkidle')])
+        
+        await dashboardPage.scrollToMyApplicationsTable()
+        await dashboardPage.navigateToProcessingTab()
+       // await dashboardPage.verifyApplicationRecord(rfid)
         
 
+
     })
+
+    
 })

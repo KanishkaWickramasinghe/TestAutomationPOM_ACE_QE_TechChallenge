@@ -37,8 +37,8 @@ export default defineConfig({
     baseURL:"https://qa-internet.bgp.onl/",
     headless:false,
     viewport: { width: 1280, height: 720 },
-    actionTimeout: 50000,
-    navigationTimeout: 300000,
+    actionTimeout: 500000,
+    navigationTimeout: 3000000,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },

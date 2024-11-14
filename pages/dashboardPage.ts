@@ -6,6 +6,9 @@ export default class DashboardPage{
     readonly lbl_loggedInUserName:Locator;
     readonly lbl_loggedInUserRole:Locator;
     readonly btn_FAQ:Locator;
+    readonly lbl_MyApplications:Locator;
+    readonly tab_processing:Locator;
+    readonly lbl_rfidTD:Locator;
 
     constructor(public page:Page){
         this.lbl_homeBanner=page.locator(".dashboard-container h2")
@@ -14,6 +17,9 @@ export default class DashboardPage{
         this.lbl_loggedInUserName=page.locator("#user-info-item .username-tag div")
         this.lbl_loggedInUserRole=page.locator("//div[@id='user-info-item']//span/a")
         this.btn_FAQ=page.locator("xpath=//a[text()='FAQ']")
+        this.lbl_MyApplications=page.locator("//div[@class='subsection-title']/h3[text()='My Applications']")
+        this.tab_processing=page.locator("//a[@href='#processing']")
+        this.lbl_rfidTD=page.locator("//table[@id='db-apps-processing']//td[1]")
     }
 
     async verifyHomePageBanner(banner:string){
@@ -54,5 +60,25 @@ export default class DashboardPage{
         await faqNavigation.click();
         console.log("-------FAQ page loaded.-------")
     }
+
+    async scrollToMyApplicationsTable(){
+        const myApplication=this.lbl_MyApplications
+        await myApplication.scrollIntoViewIfNeeded()
+    }
+
+    async navigateToProcessingTab(){
+        const processingTab=this.tab_processing
+        await processingTab.click()
+        await processingTab.waitFor({state:"visible"})
+    }
+    async verifyApplicationRecord(rfid:string){
+        const rfid_count=await this.lbl_rfidTD.count()
+        const items=this.lbl_rfidTD
+        for(let i=0;i<rfid_count;i++){
+            const text = await items.nth(i).textContent();
+            expect(text).toBe(rfid)
+        }
+    }
+    
 }
 

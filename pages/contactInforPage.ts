@@ -187,21 +187,21 @@ export default class ContactInforPage{
         await expect(jobTitle).toHaveValue(ujob)
         await expect(contactNo).toHaveValue(ucontactNo)
         await expect(email).toHaveValue(uemail)
-        console.log("------------Main contact person values save verified.-----------")  
+        console.log("------------Main contact person values save verified after save.-----------")  
         
         await expect(po_code).toHaveValue(upo_code)
         await expect(blkHse).toHaveValue(ublkHse)
         await expect(street).toHaveValue(ustreet)
-        console.log("------------Postal code address details verified.-----------")  
+        console.log("------------Postal code address details verified after save.-----------")  
         await expect(offeree_name).toHaveValue(uofferee_name)
         await expect(offee_job).toHaveValue(uofferee_job)
         await expect(offeeEmail).toHaveValue(uofferee_email)
-        console.log("------------Offeree details verified.-----------")  
+        console.log("------------Offeree details verified after save.-----------")  
 
     }
     async navigetToNextFormSection(){
         await this.btn_next.click()
-        console.log("-------------Verify next section of form.-------------")
+        console.log("-------------Verify next section of form (Proposal).-------------")
     }
 
     async verifyLetterOfOfferAddresseeFieds(){
@@ -215,9 +215,11 @@ export default class ContactInforPage{
         await expect(offee_job).toBeVisible()
         console.log("---------Letter Of Offer Addressee Job Fied displayed-----------")
         await expect(offeeEmail).toBeVisible()
-        console.log("---------Letter Of Offer Addressee email Fied displayed-----------")
-        
+        console.log("---------Letter Of Offer Addressee email Fied displayed-----------") 
     }
+
+
+
 
 
 
