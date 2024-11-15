@@ -14,6 +14,7 @@ export default class CheckEligibilityPage{
     readonly ele_sidemenuElements:Locator;
     readonly lbl_Question:Locator;
     readonly lbl_RadioValidationMessage:Locator;
+    readonly lbl_FAQ:Locator;
     
     constructor(public page:Page){
         this.lbl_eligibilityPageBanner=page.locator("xpath=//div[@class='main']//h2")
@@ -29,6 +30,7 @@ export default class CheckEligibilityPage{
         this.ele_sidemenuElements=page.locator("xpath=//li/a")
         this.lbl_Question=page.locator(".form-group .control-label.bgp-label")
         this.lbl_RadioValidationMessage=page.locator(".field-warning-text span")
+        this.lbl_FAQ=page.locator("//div[@class='field-warning-text']//a[text()='FAQ']")
         
     }
     
@@ -183,6 +185,11 @@ export default class CheckEligibilityPage{
         const question1=this.lbl_Question.nth(4)
         expect(question1).toHaveText(lbl_question)
         console.log("-------------Eligibility Question 5 verified.-------------")
+    }
+
+    async navigatToFAQViaValMessage(){
+        const faq=this.lbl_FAQ;
+        await faq.first().click()
     }
 
    

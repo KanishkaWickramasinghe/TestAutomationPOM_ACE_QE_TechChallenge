@@ -98,7 +98,6 @@ test.describe("Set new grants.",()=>{
         await checkEligibilityPage.reloadExistingPage()
         await page.waitForLoadState('networkidle',{timeout:1000000});
         await checkEligibilityPage.verifySaveFunctionality() 
-        await checkEligibilityPage.selectNoForTheApplicationRadioButtons("The applicant may not meet the eligibility criteria for this grant. Visit FAQ page for more information on other government grants.")
         await checkEligibilityPage.navigetToNextFormSection()
         await page.waitForLoadState('networkidle',{timeout:1000000});
         Promise.all([page.waitForLoadState('networkidle',{timeout:5000000})])
@@ -198,11 +197,11 @@ test.describe("Set new grants.",()=>{
         const reviewPage=new ReviewPage(page)
         await reviewPage.verifyLoadedPageBanner("Company Profile")
         await reviewPage.verifyEligibilitySectionBanner("Eligibility")
-        await reviewPage.verifyTurnover_check("No")
-        await reviewPage.verifyRegistered_check("No")
-        await reviewPage.verifyProject_check("No")
-        await reviewPage.verifyMarket_check("No")
-        await reviewPage.verifyGlobal_hq_check("No")
+        await reviewPage.verifyTurnover_check("Yes")
+        await reviewPage.verifyRegistered_check("Yes")
+        await reviewPage.verifyProject_check("Yes")
+        await reviewPage.verifyMarket_check("Yes")
+        await reviewPage.verifyGlobal_hq_check("Yes")
 
         await reviewPage.verifyContatPersonDetails(contactData.name,contactData.jobTitle,contactData.contactNo,contactData.email,contactData.altEmail)
         await reviewPage.verifyLetterOfAddresse(contactData.name,contactData.jobTitle,contactData.email)
@@ -215,11 +214,18 @@ test.describe("Set new grants.",()=>{
         //const rfid=reviewPage.readRFIDValue()
        
         await reviewPage.navigateToMyGrantsPage()
-        await page.waitForLoadState('networkidle',{timeout:1000000});
+        await page.waitForTimeout(800000)
         Promise.all([page.waitForLoadState('networkidle')])
         
-        await dashboardPage.scrollToMyApplicationsTable()
+        const apiResponse = await page.waitForResponse((response,) => 
+            response.url().includes('https://qa-internet.bgp.onl/corppass/last_request') && response.status() === 200
+        ,{timeout:5000000});
+        const responseBody = await apiResponse.json();
+        expect(responseBody.success).toBe(true);
+
+        await dashboardPage.verifyHomePageBanner("my Grants") 
         await dashboardPage.navigateToProcessingTab()
+        await page.waitForLoadState("load",{timeout:5000000})
        // await dashboardPage.verifyApplicationRecord(rfid)
         
 

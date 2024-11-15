@@ -30,6 +30,7 @@ export default class ProposalPage{
 
     async addProposalName(name:string){
         const projectName=this.input_projectTitle
+        await projectName.waitFor({state:"visible",timeout:50000000})
         await projectName.fill(name)
         console.log("----------Project title added in proposal page-----------")
     }

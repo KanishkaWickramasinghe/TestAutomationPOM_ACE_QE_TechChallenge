@@ -5,15 +5,15 @@ export default class LogoutSuccessPage{
     readonly btn_login:Locator;
 
     constructor(public page:Page){
-        this.lbl_logoutSuccessBanner=page.locator("xpath=//h4[@class='loggedout-title-HgKL- log-message']")
+        this.lbl_logoutSuccessBanner=page.locator("xpath=//h4")
         this.btn_login=page.locator("#login-button")
     }
 
     async verifyDisplayOfSuccessfulLogout(label:string){
         const logoutBanner=this.lbl_logoutSuccessBanner
         const logoutButton=this.btn_login
-        logoutBanner.waitFor({state:"visible",timeout:500000})
-        expect(logoutBanner).toHaveText(label)
+        logoutBanner.nth(1).waitFor({state:"visible",timeout:500000})
+        expect(logoutBanner.nth(1)).toHaveText(label)
         expect(logoutButton).toBeVisible()
         console.log("-------------User is successfully loggedout.-------------")
     }

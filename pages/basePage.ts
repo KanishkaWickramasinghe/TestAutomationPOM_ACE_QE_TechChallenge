@@ -1,7 +1,5 @@
 import { expect, Page,Locator } from "@playwright/test";
-import SignInPage from "./signInPage";
-import PreLoginPage from "./preLoginPage";
-import LogingPage from "./loginPage";
+
 export default class BasePage{
     
     private page: Page;

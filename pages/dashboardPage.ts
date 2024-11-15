@@ -61,10 +61,11 @@ export default class DashboardPage{
         console.log("-------FAQ page loaded.-------")
     }
 
-    async scrollToMyApplicationsTable(){
-        const myApplication=this.lbl_MyApplications
-        await myApplication.scrollIntoViewIfNeeded()
-    }
+    // async scrollToMyApplicationsTable(){
+    //     const myApplication=this.lbl_MyApplications
+    //     await myApplication.waitFor({timeout:50000})
+    //     await myApplication.scrollIntoViewIfNeeded()
+    // }
 
     async navigateToProcessingTab(){
         const processingTab=this.tab_processing

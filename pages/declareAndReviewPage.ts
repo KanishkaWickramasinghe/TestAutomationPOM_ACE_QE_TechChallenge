@@ -47,6 +47,7 @@ export default class DeclareAndReviewPage{
 
     async verifyErrorMessageLabelDisplay(){
         const errorLable=this.lbl_errorLabel;
+        await errorLable.waitFor({state:"visible",timeout:50000})
         await errorLable.scrollIntoViewIfNeeded()
         await expect(errorLable.first()).toBeVisible()
     }

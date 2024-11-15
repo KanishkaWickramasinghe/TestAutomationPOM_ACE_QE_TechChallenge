@@ -153,8 +153,8 @@ export default class ReviewPage{
     async navigateToMyGrantsPage(){
         const mygrants=this.btn_myGrants
         await mygrants.scrollIntoViewIfNeeded()
-        await mygrants.click()
-        await this.page.waitForTimeout(800000)
+        await mygrants.click({timeout:200000})
+        
     }
 
 }

@@ -7,13 +7,7 @@ import LogoutSuccessPage from "../pages/logoutSuccessPage";
 import BasePage from "../pages/basePage";
 import data from "../testdata/data.json"
 
-// const password=data.userName;
-// const userName=data.password;
 
-// const uen="BGPQETECH";
-// const userId="S1234567A";
-// const role="Acceptor";
-// const name="Tan Ah Kow";
 
 test.describe("SignInTestSuite",()=>{
     test("SignIn to System with valid credentials",async({page,baseURL})=>{
@@ -86,6 +80,7 @@ test.describe("SignInTestSuite",()=>{
 
         console.log("-------------Navigate to Logout success page.-------------")
         const logoutSuccessPage=new LogoutSuccessPage(page)
+        await page.waitForLoadState("load",{timeout:500000})
         logoutSuccessPage.verifyDisplayOfSuccessfulLogout("You have successfully logged out.")
 
     })
