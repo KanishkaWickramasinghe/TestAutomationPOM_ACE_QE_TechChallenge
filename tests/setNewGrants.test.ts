@@ -116,10 +116,6 @@ test.describe("Set new grants.",()=>{
         await page.waitForLoadState('networkidle',{timeout:1000000});
         await contactInforPage.addMailingAddressManually(contactData.postalCode,"531","ANG MO KIO AVENUE 10")
 
-        // contactInforPage.filterforInvalidPostalCode("160304")
-        // contactInforPage.verifyPostalCodeValidationMessage("We can't find the postal code. Please try again.")
-        // await page.waitForLoadState('networkidle',{timeout:1000000});
-
         await contactInforPage.verifyLetterOfOfferAddresseeFieds()
         
         await contactInforPage.checkSameAsMainMontactPerson()
