@@ -16,7 +16,7 @@ d. Install Playwright browsers
 **Cloning Git repository**
  ======================================
 2. Clone git repository using git clone
-   #git clone <https url from the git repo>
+   #git clone https://github.com/KanishkaWickramasinghe/TestAutomationPOM_ACE_QE_TechChallenge.git
 4. Open test files and run test files using command in terminal
 	
 
