@@ -1,4 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
+import { url } from "inspector";
 export default class FAQPage{
     readonly lbl_FaqPageBanner:Locator;  
     readonly lbl_loginPointBanner:Locator; 
@@ -20,5 +21,11 @@ export default class FAQPage{
         const txtBanner=this.lbl_loginPointBanner;
         await txtBanner.waitFor({state:"visible",timeout:500000})
         await expect(txtBanner).toHaveText(bannr)
+    }
+
+    async verifyNavigatedURL(){
+        const  currentUrl=url()
+        console.log("-------Current url: "+currentUrl)
+        await expect(currentUrl).toBe('https://www.gobusiness.gov.sg/business-grants-portal-faq/get-a-grant/');
     }
 }

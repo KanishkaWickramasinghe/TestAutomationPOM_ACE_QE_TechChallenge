@@ -49,7 +49,6 @@ test.describe("Verify opening of FAQ page.",()=>{
         await page.waitForLoadState('networkidle');
         await faqPage.verifyFAQPageBanner("Business Grants Portal FAQ")
         await faqPage.verifyUniqBannerFrolLoginPoint("About")
-
     })
 
     test("Test opening of FAQ via eligibility page validation message.",async({page,baseURL})=>{
@@ -104,7 +103,6 @@ test.describe("Verify opening of FAQ page.",()=>{
         Promise.all([page.waitForLoadState('networkidle')])
         await page.waitForLoadState('networkidle',{timeout:1000000});
         
-
         const checkEligibilityPage=new CheckEligibilityPage(page)
         console.log("-------------Navigate to check availablity.-------------")
         await checkEligibilityPage.verifyCheckEligibilityPageBanner("Check Your Eligibility")
@@ -118,10 +116,9 @@ test.describe("Verify opening of FAQ page.",()=>{
         console.log("-------------Navigate to FAQ page.-------------")
 
         const faqPage=new FAQPage(newPage)
+        await faqPage.verifyNavigatedURL()
         await page.waitForLoadState('networkidle');
         await faqPage.verifyFAQPageBanner("Get a Grant")
         await faqPage.verifyUniqBannerFrolLoginPoint("Get a Grant")
-
-
     })
 })
