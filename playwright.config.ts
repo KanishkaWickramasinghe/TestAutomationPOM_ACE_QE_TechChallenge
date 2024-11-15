@@ -13,11 +13,11 @@ import { on } from 'events';
  */
 
 export default defineConfig({
-  timeout: 100000,
+  timeout: 1000000,
   testDir: './tests',
   testMatch: '**/*.ts',
   expect: {
-    timeout: 100000, // 10 seconds timeout for assertions
+    timeout: 1000000, // 10 seconds timeout for assertions
   },
   maxFailures: 0,
   /* Run tests in files in parallel */

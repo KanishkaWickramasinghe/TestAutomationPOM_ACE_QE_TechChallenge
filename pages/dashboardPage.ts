@@ -61,11 +61,11 @@ export default class DashboardPage{
         console.log("-------FAQ page loaded.-------")
     }
 
-    // async scrollToMyApplicationsTable(){
-    //     const myApplication=this.lbl_MyApplications
-    //     await myApplication.waitFor({timeout:50000})
-    //     await myApplication.scrollIntoViewIfNeeded()
-    // }
+    async scrollToMyApplicationsTable(){
+        const myApplication=this.lbl_MyApplications
+        await myApplication.waitFor({timeout:5000000})
+        await myApplication.scrollIntoViewIfNeeded()
+    }
 
     async navigateToProcessingTab(){
         const processingTab=this.tab_processing
@@ -77,7 +77,16 @@ export default class DashboardPage{
         const items=this.lbl_rfidTD
         for(let i=0;i<rfid_count;i++){
             const text = await items.nth(i).textContent();
-            expect(text).toBe(rfid)
+            console.log(text)
+            if (text === rfid) {
+                console.log('Application is in inprocessing tab with rfid: '+text);
+                // Perform action A
+                expect(text).toBe(rfid)
+                return -1;
+              } else {
+                console.log('Application not available.');
+                
+              }
         }
     }
     

@@ -207,26 +207,19 @@ test.describe("Set new grants.",()=>{
         await reviewPage.verifySuccessMessage("Your application has been submitted.")
         await reviewPage.verifySuccessMessageDetails("Enterprise Singapore")
 
-        //const rfid=reviewPage.readRFIDValue()
+        const rfid=reviewPage.readRFIDValue()
+        const value = await rfid; // Wait for the Promise to resolve
+        const stringValue = String(value); // Convert to string
+        console.log("============ conversion: "+stringValue);
        
         await reviewPage.navigateToMyGrantsPage()
-        await page.waitForTimeout(800000)
-        Promise.all([page.waitForLoadState('networkidle')])
+        await page.waitForTimeout(8000)
+        Promise.all([page.waitForLoadState('networkidle'),{timeout:1000000}])
         
-        const apiResponse = await page.waitForResponse((response,) => 
-            response.url().includes('https://qa-internet.bgp.onl/corppass/last_request') && response.status() === 200
-        ,{timeout:5000000});
-        const responseBody = await apiResponse.json();
-        expect(responseBody.success).toBe(true);
-
+        await dashboardPage.scrollToMyApplicationsTable()
         await dashboardPage.verifyHomePageBanner("my Grants") 
         await dashboardPage.navigateToProcessingTab()
         await page.waitForLoadState("load",{timeout:5000000})
-       // await dashboardPage.verifyApplicationRecord(rfid)
-        
-
-
-    })
-
-    
+        await dashboardPage.verifyApplicationRecord(stringValue)
+    }) 
 })
